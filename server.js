@@ -24,9 +24,10 @@ mongoose.connect(DB, {}).then(() => {
   console.log("successful connection");
 });
 
-const port = process.env.PORT || 8080;
+// const port = process.env.PORT || 8080;
+const port = 4545;
 const server = app.listen(port, () => {
-  console.log("app is running...");
+  console.log("app is running..." + port);
 });
 
 process.on("unhandledRejection", (err) => {
@@ -37,3 +38,5 @@ process.on("unhandledRejection", (err) => {
     process.exit(1);
   });
 });
+
+// ngrok http --scheme=http 4545 --host-header=localhost:4545

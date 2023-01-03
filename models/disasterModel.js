@@ -21,12 +21,13 @@ const disasterSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  // or taking distance and do calculations
-  distance: { type: Number },
   accident: {
     type: Boolean,
     default: false,
   },
+  // or taking distance and do calculations
+  distance: { type: Number },
+  n: { String },
   name: {},
 
   lat: {
@@ -44,8 +45,6 @@ const disasterSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    // default: Date.now(),
-    // select: false,
   },
   time: {},
   date: {},
@@ -62,12 +61,6 @@ const disasterSchema = new mongoose.Schema({
 });
 
 disasterSchema.pre("save", function (next) {
-  // const disasterName = `${this.accident && "Accident"} ${
-  //   this.flame && "Fire"
-  // } ${this.flood && "Flood"} ${this.earthquake && "Earthquake"} ${
-  //   this.drowning && "Drowning"
-  // } ${this.gas && "Petroleum Leakage"}`;
-
   const disasterName = [
     this.accident && "Accident",
     this.flame && "Fire",
@@ -88,9 +81,7 @@ disasterSchema.pre("save", function (next) {
     if (hours > 12) {
       time = time.split(":").splice(1).join(":");
       hours = hours - 12;
-      // console.log(hours);
       return `${hours < 10 ? "0" + hours : hours}:${time} PM`;
-      // return `${hours}:${time} PM`;
     } else {
       return `${time} AM`;
     }
@@ -106,11 +97,10 @@ disasterSchema.pre("save", function (next) {
     .splice(0, 4)
     .join(" ");
 
-  if (this.distance * 1 < 5) {
+  if (this.distance * 1 < 20) {
     this.accident = true;
   }
 
-  // console.log(this);
   next();
 });
 

@@ -54,6 +54,7 @@ exports.getAllAdmins = catchAsync(async (req, res, next) => {
   const admins = await User.find({ role: "admin" });
 
   req.admins = admins;
+  console.log(req.admins);
   next();
 });
 
